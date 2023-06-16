@@ -60,9 +60,8 @@ export default class PointPresenter {
     }
 
     if (this.#mode === Mode.EDITING) {
-      replace(this.#pointFormView, prevPointFormView);
+      replace(this.#pointCardView, prevPointFormView);
       this.#mode = Mode.DEFAULT;
-
     }
 
     remove(prevPointCardView);
@@ -72,6 +71,7 @@ export default class PointPresenter {
   destroy() {
     remove(this.#pointCardView);
     remove(this.#pointFormView);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
   }
 
   resetView() {
@@ -85,7 +85,7 @@ export default class PointPresenter {
     if (this.#mode === Mode.EDITING) {
       this.#pointFormView.updateElement({
         isDisabled: true,
-        isSaving: true
+        isSaving: true,
       });
     }
   }
@@ -94,7 +94,7 @@ export default class PointPresenter {
     if (this.#mode === Mode.EDITING) {
       this.#pointFormView.updateElement({
         isDisabled: true,
-        isDeleting: true
+        isDeleting: true,
       });
     }
   }
@@ -120,15 +120,17 @@ export default class PointPresenter {
   #replaceCardToForm() {
     this.#handleModeChange();
     replace(this.#pointFormView, this.#pointCardView);
-    document.addEventListener('keydown', this.#escKeyDownHandler);
     this.#mode = Mode.EDITING;
+    document.addEventListener('keydown', this.#escKeyDownHandler);
+
   }
 
 
   #replaceFormToCard() {
     replace(this.#pointCardView, this.#pointFormView);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#mode = Mode.DEFAULT;
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+
   }
 
   #handleCloseForm = () => {
@@ -146,7 +148,6 @@ export default class PointPresenter {
       isMinor ? UpdateType.MINOR : UpdateType.PATCH,
       point
     );
-    this.#replaceFormToCard();
   };
 
   #handleOpenForm = () => {
