@@ -2,6 +2,7 @@
 import EventListView from '../view/event-list-view';
 import { render } from '../render';
 import EventItemPresenter from './event-item-presenter';
+import EmptyView from '../view/empty-view';
 
 export default class EventListPresenter {
   #tripEventsList;
@@ -9,18 +10,24 @@ export default class EventListPresenter {
 
   constructor(model) {
     this.model = model;
-    this.points = model.getPoints();
+    this.points = model.points;
   }
 
   presentList() {
-    this.#tripEventsList = new EventListView();
-    render(new EventListView(), document.querySelector('.trip-events'));
-    this.#eventItemPresenter = new EventItemPresenter(document.querySelector('.trip-events__list'));
+    if(this.model.pointsAmount !== 0) {
+      this.#tripEventsList = new EventListView();
+      render(this.#tripEventsList, document.querySelector('.trip-events'));
+      this.#eventItemPresenter = new EventItemPresenter(this.#tripEventsList);
+    } else {
+      render(new EmptyView(), document.querySelector('.trip-events'));
+    }
   }
 
   presentEvents() {
-    for(let i = 0; i < this.model.getPointsAmount(); i++) {
-      this.#eventItemPresenter.presentEvent(this.points[i]);
+    if (this.model.pointsAmount !== 0) {
+      for(let i = 0; i < this.model.pointsAmount; i++) {
+        this.#eventItemPresenter.presentEvent(this.points[i]);
+      }
     }
   }
 }
