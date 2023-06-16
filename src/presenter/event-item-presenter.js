@@ -5,53 +5,67 @@ import { generateKeydownFun } from '../utils/utils';
 
 export default class EventItemPresenter {
   #tripEventsList;
+  #point;
+  #event;
+  #editor;
   #replaceEventWithForm = null;
   #replaceFormWithEvent = null;
   #removeEvent = null;
+  #open = false;
+  #deleted = false;
 
-  constructor(tripEventsList) {
+  constructor(point, tripEventsList) {
     this.#tripEventsList = tripEventsList;
+    this.#point = point;
   }
 
-  presentEvent(newPoint) {
-    const point = newPoint;
-    const event = new EventView(point);
-    const editor = new EventEditorView(point);
+  close() {
+    if (this.#open) {
+      this.#replaceFormWithEvent();
+    }
+  }
+
+  presentEvent(callback) {
+    this.#event = new EventView(this.#point);
+    this.#editor = new EventEditorView(this.#point);
     let EscKeydownListener;
-    render(event, this.#tripEventsList.element);
+    render(this.#event, this.#tripEventsList.element);
 
-    const replaceEventWithForm = () => {
-      this.#tripEventsList.element.replaceChild(editor.element, event.element);
+    this.#replaceEventWithForm = () => {
+      callback();
+      this.#open = true;
+      this.#tripEventsList.element.replaceChild(this.#editor.element, this.#event.element);
     };
-    const replaceFormWithEvent = () => {
-      this.#tripEventsList.element.replaceChild(event.element, editor.element);
+    this.#replaceFormWithEvent = () => {
+      this.#open = false;
+      this.#tripEventsList.element.replaceChild(this.#event.element, this.#editor.element);
       document.removeEventListener('keydown', EscKeydownListener);
     };
-    const removeEvent = () => {
-      this.#tripEventsList.element.removeChild(editor.element);
+    this.#removeEvent = () => {
+      this.#deleted = true;
+      this.#open = false;
+      this.#tripEventsList.element.removeChild(this.#editor.element);
       document.removeEventListener('keydown', EscKeydownListener);
     };
 
-    event.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-      replaceEventWithForm();
-      EscKeydownListener = generateKeydownFun(document, replaceFormWithEvent);
+    this.#event.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      this.#replaceEventWithForm();
+      EscKeydownListener = generateKeydownFun(document, this.#replaceFormWithEvent);
     });
 
-    editor.element.querySelector('.event--edit').addEventListener('submit', (evt) => {
+    this.#editor.element.querySelector('.event--edit').addEventListener('submit', (evt) => {
       evt.preventDefault();
-      replaceFormWithEvent();
+      this.#replaceFormWithEvent();
     });
 
-    editor.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-      replaceFormWithEvent();
+    this.#editor.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      this.#replaceFormWithEvent();
     });
 
-    editor.element.querySelector('.event__reset-btn').addEventListener('click', () => {
-      removeEvent();
-      editor.removeElement();
-      event.removeElement();
+    this.#editor.element.querySelector('.event__reset-btn').addEventListener('click', () => {
+      this.#removeEvent();
+      this.#editor.removeElement();
+      this.#event.removeElement();
     });
   }
-
-
 }
