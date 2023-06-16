@@ -10,7 +10,6 @@ function renderFilter() {
   sortPresenter.presentSort();
   const eventListPresenter = new EventListPresenter(new Model());
   eventListPresenter.presentList();
-  eventListPresenter.presentEventEditor();
   eventListPresenter.presentEvents();
 }
 

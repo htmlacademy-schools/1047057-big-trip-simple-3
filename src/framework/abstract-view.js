@@ -1,17 +1,21 @@
 import { createElement } from '../render';
 
 export default class AbstractView {
-  element = null;
+  #element = null;
 
-  getElement() {
-    if (this.element === null) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (this.#element === null) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
-  getTemplate() {
+  get template() {
     throw new Error('Method not implemented!');
+  }
+
+  removeElement() {
+    this.#element = null;
   }
 }
