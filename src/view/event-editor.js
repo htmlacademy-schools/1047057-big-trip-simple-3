@@ -1,4 +1,5 @@
-import AbstractView from '../framework/abstract-view';
+import AbstractView from '../framework/view/abstract-view';
+
 
 function generateTemplate(point) {
   return `<li class="trip-events__item">
