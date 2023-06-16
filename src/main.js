@@ -1,3 +1,4 @@
+import Model from './model/model';
 import EventListPresenter from './presenter/event-list-presenter';
 import FilterPresenter from './presenter/filter-presenter';
 import SortPresenter from './presenter/sort-presenter';
@@ -7,10 +8,10 @@ function renderFilter() {
   filterPresenter.presentFilter();
   const sortPresenter = new SortPresenter();
   sortPresenter.presentSort();
-  const eventListPresenter = new EventListPresenter();
+  const eventListPresenter = new EventListPresenter(new Model());
   eventListPresenter.presentList();
   eventListPresenter.presentEventEditor();
-  eventListPresenter.presentEvents(3);
+  eventListPresenter.presentEvents();
 }
 
 renderFilter();

@@ -9,15 +9,20 @@ export default class EventListPresenter {
   tripEventsList;
   eventItemPresenter;
 
+  constructor(model) {
+    this.model = model;
+    this.points = model.getPoints();
+  }
+
   presentList() {
     render(new EventListView(), document.querySelector('.trip-events'));
     this.tripEventsList = document.querySelector('.trip-events__list');
     this.eventItemPresenter = new EventItemPresenter(this.tripEventsList);
   }
 
-  presentEvents(amount) {
-    for(let i = 0; i < amount; i++) {
-      this.eventItemPresenter.presentEvent();
+  presentEvents() {
+    for(let i = 0; i < this.model.getPointsAmount(); i++) {
+      this.eventItemPresenter.presentEvent(this.points[i]);
     }
   }
 

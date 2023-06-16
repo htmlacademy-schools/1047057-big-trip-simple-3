@@ -8,7 +8,7 @@ export default class EventItemPresenter {
     this.tripEventsList = tripEventsList;
   }
 
-  presentEvent() {
-    render(new EventView(), this.tripEventsList);
+  presentEvent(point) {
+    render(new EventView(point), this.tripEventsList);
   }
 }
