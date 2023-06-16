@@ -1,4 +1,5 @@
-import AbstractView from '../framework/abstract-view';
+import AbstractView from '../framework/view/abstract-view.js';
+
 
 const eventListLayout = `<ul class="trip-events__list">
                         </ul>`;

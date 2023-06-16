@@ -1,7 +1,7 @@
 import { generatePoints } from '../mock/mock';
 
 export default class Model {
-  static POINT_AMOUNT = 0;
+  static POINT_AMOUNT = 5;
   #points = new Array(Model.POINT_AMOUNT);
   constructor () {
     this.#points = generatePoints(Model.POINT_AMOUNT);
