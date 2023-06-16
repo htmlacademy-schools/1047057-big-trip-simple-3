@@ -4,13 +4,13 @@ import EventView from '../view/event-view';
 import { generateKeydownFun } from '../utils/utils';
 
 export default class EventItemPresenter {
-  #tripEventsListElement;
+  #tripEventsList;
   #replaceEventWithForm = null;
   #replaceFormWithEvent = null;
   #removeEvent = null;
 
   constructor(tripEventsList) {
-    this.#tripEventsListElement = tripEventsList;
+    this.#tripEventsList = tripEventsList;
   }
 
   presentEvent(newPoint) {
@@ -18,17 +18,17 @@ export default class EventItemPresenter {
     const event = new EventView(point);
     const editor = new EventEditorView(point);
     let EscKeydownListener;
-    render(event, this.#tripEventsListElement);
+    render(event, this.#tripEventsList.element);
 
     const replaceEventWithForm = () => {
-      this.#tripEventsListElement.replaceChild(editor.element, event.element);
+      this.#tripEventsList.element.replaceChild(editor.element, event.element);
     };
     const replaceFormWithEvent = () => {
-      this.#tripEventsListElement.replaceChild(event.element, editor.element);
+      this.#tripEventsList.element.replaceChild(event.element, editor.element);
       document.removeEventListener('keydown', EscKeydownListener);
     };
     const removeEvent = () => {
-      this.#tripEventsListElement.removeChild(editor.element);
+      this.#tripEventsList.element.removeChild(editor.element);
       document.removeEventListener('keydown', EscKeydownListener);
     };
 
