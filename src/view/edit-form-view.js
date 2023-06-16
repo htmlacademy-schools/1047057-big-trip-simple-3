@@ -37,7 +37,7 @@ function createPicturesListTemplate(pictures) {
 function createTripTypeTemplate(allOffers, point) {
   return allOffers.map(({type, id}) =>
     `<div class="event__type-item">
-      <input id="event-type-${type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${point.type === type ? 'checked' : ''}>
+      <input id="event-type-${type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${point.type === type ? 'checked' : ''}> 
       <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-${id}">${capitalize(type)}</label>
     </div>`).join('');
 }
@@ -90,7 +90,7 @@ function createTemplate(state, tripDestinations, allOffers,) {
             <datalist id="destination-list-1">
               ${destinationsOptionValueTemplate}
               </datalist>
-
+            
           </div>
           <div class="event__field-group  event__field-group--time" ${isDisabled ? 'disabled' : ''}>
             <label class="visually-hidden" for="event-start-time-1">From</label>
@@ -119,7 +119,7 @@ function createTemplate(state, tripDestinations, allOffers,) {
             <h3 class="event__section-title  event__section-title--offers">Offers</h3>
             <div class="event__available-offers">
             ${createOffersTemplate( typeOffers, point)}
-
+            
           </section>`
       : ''
 
@@ -139,7 +139,7 @@ function createTemplate(state, tripDestinations, allOffers,) {
           </section>`
       : ''
     }
-
+    
         </section>
       </form>
     </li>`
@@ -181,7 +181,7 @@ export default class EditFormView extends AbstractStatefulView {
     element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     element.querySelector('.event__type-group').addEventListener('change', this.#pointTypeChangeHandler);
     element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
-    element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler);
+    element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
     element.querySelector('.event__reset-btn').addEventListener('click', this.#formResetClickHandler);
     this.#setDateFromPicker();
     this.#setDateToPicker();
@@ -231,7 +231,7 @@ export default class EditFormView extends AbstractStatefulView {
     );
   }
 
-  #priceInputHandler = (evt) => {
+  #priceChangeHandler = (evt) => {
     evt.preventDefault();
 
     this._setState({
@@ -305,7 +305,6 @@ export default class EditFormView extends AbstractStatefulView {
       isDisabled: false,
       isSaving: false,
       isDeleting: false
-
     };
   }
 

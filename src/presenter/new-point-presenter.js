@@ -28,14 +28,15 @@ export default class NewPointPresenter {
     });
 
     render(this.#newPointView, this.#container, RenderPosition.AFTERBEGIN);
-
     document.addEventListener('keydown', this.#escKeyDownHandler);
+
   }
 
   destroy() {
     if (this.#newPointView === null) {
       return;
     }
+
     this.#handleDestroy();
 
     remove(this.#newPointView);
@@ -47,7 +48,7 @@ export default class NewPointPresenter {
   setSaving() {
     this.#newPointView.updateElement({
       isDisabled: true,
-      isSaving: true
+      isSaving: true,
     });
   }
 
@@ -59,7 +60,6 @@ export default class NewPointPresenter {
         isDeleting: false,
       });
     };
-
     this.#newPointView.shake(resetFormState);
   }
 
@@ -67,7 +67,7 @@ export default class NewPointPresenter {
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {...point},
+      point,
     );
   };
 
