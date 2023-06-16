@@ -1,16 +1,19 @@
-import Model from './model/model';
-import EventListPresenter from './presenter/event-list-presenter';
-import FilterPresenter from './presenter/filter-presenter';
-import SortPresenter from './presenter/sort-presenter';
+import PointListPresenter from './presenter/point-list-presenter.js';
+import PointsModel from './model/points-model.js';
+import MainPresenter from './presenter/main-presenter.js';
+import { generateFilters } from './mock/filter.js';
 
-function renderFilter() {
-  const filterPresenter = new FilterPresenter();
-  filterPresenter.presentFilter();
-  const sortPresenter = new SortPresenter();
-  sortPresenter.presentSort();
-  const eventListPresenter = new EventListPresenter(new Model());
-  eventListPresenter.presentList();
-  eventListPresenter.presentEvents();
-}
 
-renderFilter();
+const headerElement = document.querySelector('.page-header__container');
+const pageBodyElement = document.querySelector('.page-body__page-main');
+const pageBodyContainerElement = pageBodyElement.querySelector('.page-body__container');
+
+
+const pointsModel = new PointsModel();
+const filters = generateFilters(pointsModel.points);
+
+const pointListPresenter = new PointListPresenter({container: pageBodyContainerElement, pointsModel});
+const mainPresenter = new MainPresenter({container: headerElement, filters});
+
+mainPresenter.init();
+pointListPresenter.init();
