@@ -15,7 +15,7 @@ const filterLayout = `<form class="trip-filters" action="#" method="get">
               </form>`;
 
 export default class FilterView extends AbstractView {
-  getTemplate() {
+  get template() {
     return filterLayout;
   }
 }

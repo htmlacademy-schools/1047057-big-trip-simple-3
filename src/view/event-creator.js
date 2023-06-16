@@ -164,7 +164,7 @@ const eventCreatorLayout = `<li class="trip-events__item">
             </li>`;
 
 export default class EventCreatorView extends AbstractView {
-  getTemplate() {
+  get template() {
     return eventCreatorLayout;
   }
 }

@@ -28,7 +28,7 @@ const sortLayout = `<form class="trip-events__trip-sort  trip-sort" action="#" m
           </form>`;
 
 export default class SortView extends AbstractView {
-  getTemplate() {
+  get template() {
     return sortLayout;
   }
 }

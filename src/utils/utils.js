@@ -4,4 +4,16 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 
-export { getRandomInt };
+const generateKeydownFun = (element, onKeydownFunction) => {
+  const onEscKeydown = (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      onKeydownFunction();
+    }
+  };
+  element.addEventListener('keydown', onEscKeydown);
+
+  return onEscKeydown;
+};
+
+export { getRandomInt, generateKeydownFun };
